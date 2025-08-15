@@ -4,11 +4,14 @@ class Textfield extends StatelessWidget {
   final String hintText;
   final bool obscureText;
   final TextEditingController controller;
+  final FocusNode? focusNode;
+
   const Textfield({
     super.key,
     required this.hintText,
     required this.obscureText,
     required this.controller,
+    this.focusNode,
   });
 
   @override
@@ -16,6 +19,7 @@ class Textfield extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 25),
       child: TextField(
+        focusNode: focusNode,
         obscureText: obscureText,
         controller: controller,
         decoration: InputDecoration(
@@ -23,6 +27,7 @@ class Textfield extends StatelessWidget {
             borderSide: BorderSide(
               color: Theme.of(context).colorScheme.tertiary,
             ),
+            borderRadius: BorderRadius.circular(10),
           ),
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(
