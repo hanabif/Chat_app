@@ -32,9 +32,7 @@ class _ChatPageState extends State<ChatPage> {
       }
     });
 
-    Future.delayed(Duration(milliseconds: 500),
-    () => scrollDown(),
-    );
+    Future.delayed(Duration(milliseconds: 500), () => scrollDown());
   }
 
   @override
@@ -101,7 +99,7 @@ class _ChatPageState extends State<ChatPage> {
 
         //list view
         return ListView(
-          controller:_scrollController,
+          controller: _scrollController,
           children:
               snapshot.data!.docs.map((doc) => _buildMessageItem(doc)).toList(),
         );
@@ -119,7 +117,14 @@ class _ChatPageState extends State<ChatPage> {
       child: Column(
         crossAxisAlignment:
             isCurrent ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-        children: [ChatBubble(message: data['message'], isCurrent: isCurrent)],
+        children: [
+          ChatBubble(
+            message: data['message'],
+            isCurrent: isCurrent,
+            messageId: doc.id,
+            userId: data['senderId'],
+          ),
+        ],
       ),
     );
   }

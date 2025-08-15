@@ -15,18 +15,14 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor:Colors.transparent,
+        backgroundColor: Colors.transparent,
         foregroundColor: Theme.of(context).colorScheme.primary,
         elevation: 0,
-        title: Text(
-          'Home page',
-          
-        ),
+        title: Text('Home page'),
       ),
       drawer: MyDrawer(),
       body: _buildUserList(),
@@ -35,7 +31,7 @@ class HomePage extends StatelessWidget {
 
   Widget _buildUserList() {
     return StreamBuilder(
-      stream: _chatService.getUserStream(),
+      stream: _chatService.getUserStreamExcludingBlocked(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return Text('An error has occured');
@@ -66,13 +62,15 @@ class HomePage extends StatelessWidget {
     BuildContext context,
   ) {
     final currentUser = _authService.currentUser();
-   
+
     if (currentUser == null) {
       // No logged-in user yet — skip rendering
       return Container();
     }
 
-    if (userData['email'] != _authService.currentUser()!.email) {
+    if (userData['email'] != _authService.currentUser()!.email &&
+        userData['email'] != null &&
+        userData['uid'] != null) {
       return UserTile(
         name: userData['email'] ?? 'No Email',
         onTap: () {
